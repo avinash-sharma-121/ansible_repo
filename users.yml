@@ -1,5 +1,5 @@
 --- # Loops YAML Files
-- hosts: web
+- hosts: dev,prod
   user: ubuntu
   become: yes
   connection: ssh
