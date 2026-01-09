@@ -1,0 +1,15 @@
+- name: Transfer file and run script via SSM
+  hosts: all
+  gather_facts: false
+
+  tasks:
+    - name: Create shell script
+      ansible.builtin.copy:
+        dest: /tmp/demo.sh
+        mode: '0755'
+        content: |
+          #!/usr/bin/env bash
+          echo "Demo script running via SSM"
+
+    - name: Execute script
+      ansible.builtin.shell: /tmp/demo.sh

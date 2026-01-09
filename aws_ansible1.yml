@@ -1,0 +1,21 @@
+- name: Run script on EC2 via SSM Run Command
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  tasks:
+    - name: Run shell commands via SSM
+      amazon.aws.ssm_command:
+        instance_ids:
+          - i-01234567829abcdef
+        document_name: AWS-RunShellScript
+        parameters:
+          commands:
+            - |
+              cat <<'EOF' > /tmp/demo.sh
+              #!/usr/bin/env bash
+              echo "Demo script running via SSM Run Command"
+              EOF
+            - chmod +x /tmp/demo.sh
+            - /tmp/demo.sh
+        region: us-east-1

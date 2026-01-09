@@ -1,0 +1,17 @@
+- name: Run python using SSM (simplest)
+  hosts: localhost
+  connection: local
+  gather_facts: no
+
+  tasks:
+    - name: Run python on EC2 via SSM
+      amazon.aws.aws_ssm:
+        instance_ids:
+          - i-094784ae1bebb22ff
+        document_name: AWS-RunShellScript
+        parameters:
+          commands:
+            - python3 - <<EOF
+              print("Hello from Python via SSM + Ansible")
+              EOF
+
