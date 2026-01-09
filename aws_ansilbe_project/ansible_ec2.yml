@@ -1,0 +1,19 @@
+- hosts: all
+  gather_facts: false
+  vars:
+    dir_path: "/var/www/html/{{ folder_name }}"
+
+  tasks:
+    - name: Check if directory exists
+      ansible.builtin.stat:
+        path: "{{ dir_path }}"
+      register: dir_check
+
+    - name: Create directory using script (only if not exists)
+      ansible.builtin.script: create_app.sh {{ dir_path }}
+      when: not dir_check.stat.exists
+
+    - name: Directory already exists — skipping creation
+      ansible.builtin.debug:
+        msg: "Directory already exists: {{ dir_path }} — skipping creation."
+      when: dir_check.stat.exists
